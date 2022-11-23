@@ -78,7 +78,7 @@ class User(AbstractBaseUser):
     def has_module_perms(self, app_label):
         return True
 
-    def get_role(self):
+    def get_role(self): #vendor mı customer mı giriş yaptıysa onun dashboard ını göstermek için
         if self.role == 1:
             user_role = 'Vendor'
         elif self.role == 2:
