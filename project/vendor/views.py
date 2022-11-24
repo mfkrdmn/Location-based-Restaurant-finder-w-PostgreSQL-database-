@@ -3,8 +3,14 @@ from .forms import VendorForm
 from accounts.forms import *
 from .models import *
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required, user_passes_test
+from accounts.views import check_role_vendor
 # Create your views here.
 
+
+@login_required(login_url = "login")
+
+@user_passes_test(check_role_vendor)
 def vprofile(request):
 
     profile = get_object_or_404(UserProfile, user=request.user)

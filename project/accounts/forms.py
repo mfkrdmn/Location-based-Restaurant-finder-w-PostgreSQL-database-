@@ -25,6 +25,10 @@ class UserForm(forms.ModelForm):
 class UserProfileForm(forms.ModelForm):
     profile_picture = forms.ImageField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}))
     cover_photo = forms.ImageField(widget=forms.FileInput(attrs={'class': 'btn btn-info'}))
+    address = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Your address here', 'required':'required'}))
+    latitude = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    longitude = forms.CharField(widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+
     class Meta:
 
         model = UserProfile
