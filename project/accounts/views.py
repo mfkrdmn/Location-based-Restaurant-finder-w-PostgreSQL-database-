@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+
+from vendor.models import Vendor
 from .utils import detectUser
 from .forms import UserForm
 from .models import User, UserProfile
@@ -184,4 +186,9 @@ def custDashboard(request):
 @user_passes_test(check_role_vendor)
 
 def vendorAccount(request):
-    return render(request, "vendorAccount.html")
+    vendor = Vendor.objects.get(user=request.user)
+    context = {
+        'vendor' : vendor #burada verileri sadece vendorAccount da gösterebiliyoruz.
+                            #diğer sayfalarda da göstermek için context processor kullandık
+    }
+    return render(request, "vendorAccount.html", context)
