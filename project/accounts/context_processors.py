@@ -1,4 +1,5 @@
 from vendor.models import *
+from django.conf import settings
 
 # def get_vendor(request):
 #     vendor = Vendor.objects.get(user=request.user)
@@ -14,3 +15,8 @@ def get_vendor(request):
     except:
         vendor= None
     return dict(vendor=vendor)
+
+#Google auto complete
+
+def get_google_api(request):
+    return {'GOOGLE_API_KEY' : settings.GOOGLE_API_KEY}
