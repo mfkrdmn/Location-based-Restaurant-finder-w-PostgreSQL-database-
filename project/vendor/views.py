@@ -5,8 +5,14 @@ from .models import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_vendor
-# Create your views here.
+from menu.models import *
 
+
+def get_vendor(request):
+    vendor = Vendor.objects.get(user=request.user)
+    return vendor
+
+############
 
 @login_required(login_url = "login")
 
@@ -42,3 +48,40 @@ def vprofile(request):
         'vendor' :vendor
     }
     return render(request, "vprofile.html", context)
+
+
+############
+
+def menu_builder(request):
+    vendor = get_vendor(request)
+    categories = Category.objects.filter(vendor=vendor)
+
+    context = {
+        'categories' : categories,
+    }
+    return render(request, 'menu-builder.html', context)
+
+
+############
+
+
+def fooditems_by_category(request, pk=None):
+    vendor = get_vendor(request)
+    category = get_object_or_404(Category, pk=pk)
+    fooditems = FoodItem.objects.filter(vendor=vendor, category=category)
+
+    context = {
+        'fooditems' : fooditems,
+        'category' : category,
+    }
+
+    return render(request, 'fooditems_by_category.html', context)
+
+
+############ Category CRUD
+
+def add_category(request):
+
+
+    
+    return render(request, 'add_category.html')
