@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, user_passes_test
 from accounts.views import check_role_vendor
 from menu.models import *
-
+from menu.forms import *
 
 def get_vendor(request):
     vendor = Vendor.objects.get(user=request.user)
@@ -82,6 +82,11 @@ def fooditems_by_category(request, pk=None):
 
 def add_category(request):
 
+    form = CategoryForm()
 
-    
-    return render(request, 'add_category.html')
+    context = {
+        'form' : form
+    }
+
+
+    return render(request, 'add_category.html', context)
