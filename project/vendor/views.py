@@ -80,7 +80,9 @@ def fooditems_by_category(request, pk=None):
 
 
 ############ Category CRUD - Add
+@login_required(login_url = "login")
 
+@user_passes_test(check_role_vendor)
 def add_category(request):
 
     if request.method == 'POST':
@@ -107,7 +109,8 @@ def add_category(request):
 
 
 ############ Category - Edit
-
+@login_required(login_url = "login")
+@user_passes_test(check_role_vendor)
 def edit_category(request, pk=None):
 
     category = get_object_or_404(Category, pk=pk)
@@ -170,3 +173,34 @@ def add_food(request):
     }
 
     return render(request, 'add_food.html' ,context)
+
+############ Food - Edit
+
+@login_required(login_url = "login")
+@user_passes_test(check_role_vendor)
+def edit_food(request, pk=None):
+
+    food = get_object_or_404(FoodItem, pk=pk)
+
+    if request.method == 'POST':
+        form = FoodItemForm(request.POST, request.FILES, instance=food)
+        if form.is_valid():
+            foodtitle = form.cleaned_data['food_title']
+            food = form.save(commit=False)
+            food.vendor = get_vendor(request)
+            food.slug = slugify(foodtitle)
+            form.save()
+            messages.success(request, 'Food item updated successfully')
+            return redirect('fooditems_by_category', food.category.id)
+
+
+    else:
+        form = FoodItemForm(instance=food) #instance=category demezsek edit page e edit olacak veriler gelmez
+
+    context = {
+        'form' : form,
+        'food' :food,
+    }
+
+
+    return render(request, 'edit_food.html', context)

@@ -36,7 +36,9 @@
                                             <a href=""><p class="mb-0"><b>{{i.food_title}}</b></p></a>
                                             <small class="text-muted">{{i.description}}</small>
                                         </td>
-                                        <td><i class="fa fa-pencil" style="margin-right: 20px;"></i><i class="fa fa-trash text-danger"></i></td>
+                                        <td><a href="{% url 'edit_food' i.id %}"><i class="fa fa-pencil" style="margin-right: 20px;"></i></a>
+                                            <i class="fa fa-trash text-danger"></i>
+                                        </td>
                                     </tr>
 
                                     {% endfor %}
