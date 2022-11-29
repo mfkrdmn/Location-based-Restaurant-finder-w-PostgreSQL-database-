@@ -169,7 +169,9 @@ def add_food(request):
     else:
 
         form = FoodItemForm()
-
+        #modify form to particular users so that ctegories will belong to only the user ho created it
+        form.fields['category'].queryset = Category.objects.filter(vendor = get_vendor(request))
+        #
     context = {
         'form' : form,
     }
@@ -198,7 +200,9 @@ def edit_food(request, pk=None):
 
     else:
         form = FoodItemForm(instance=food) #instance=category demezsek edit page e edit olacak veriler gelmez
-
+        #modify form to particular users so that ctegories will belong to only the user ho created it
+        form.fields['category'].queryset = Category.objects.filter(vendor = get_vendor(request))
+        #
     context = {
         'form' : form,
         'food' :food,
