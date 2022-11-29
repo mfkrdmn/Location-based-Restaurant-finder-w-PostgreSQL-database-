@@ -80,6 +80,7 @@ def fooditems_by_category(request, pk=None):
 
 
 ############ Category CRUD - Add
+
 @login_required(login_url = "login")
 
 @user_passes_test(check_role_vendor)
@@ -109,6 +110,7 @@ def add_category(request):
 
 
 ############ Category - Edit
+
 @login_required(login_url = "login")
 @user_passes_test(check_role_vendor)
 def edit_category(request, pk=None):
@@ -204,3 +206,13 @@ def edit_food(request, pk=None):
 
 
     return render(request, 'edit_food.html', context)
+
+
+############ Food - Delete
+@login_required(login_url = "login")
+@user_passes_test(check_role_vendor)
+def delete_food(request, pk=None):
+    food = get_object_or_404(FoodItem, pk=pk)
+    food.delete()
+    messages.success(request, 'Food item deleted successfully')
+    return redirect('fooditems_by_category', food.category.id)
