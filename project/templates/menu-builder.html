@@ -22,7 +22,7 @@
                             <hr>
                             <table class="table">
                                 <h5>Menu Categories</h5>
-                                <a href="#" class="btn btn-success float-right m-1" >Add Food</a>
+                                <a href="{% url 'add_food' %}" class="btn btn-success float-right m-1" >Add Food</a>
                                 <a href="{% url 'add_category' %}" class="btn btn-info float-right m-1" >Add Category</a>
                                 <tbody>
                                 {% for i in categories %}
@@ -35,7 +35,7 @@
                                     </td>
                                     <td>
                                         <a href="{% url 'edit_category' i.id %}"><i class="fa fa-pencil" style="margin-right: 20px;"></i></a>
-                                        <a href="{% url 'delete_category' i.id %}"><i class="fa fa-trash text-danger"></i></a>
+                                        <a href="{% url 'delete_category' i.id %}" onclick="return confirm('Are you sure you want to delete {{i.category_name}}?')" ><i class="fa fa-trash text-danger"></i></a>
                                     </td>
                                   </tr>
 

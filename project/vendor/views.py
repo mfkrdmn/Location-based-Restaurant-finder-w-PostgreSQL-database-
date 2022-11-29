@@ -144,3 +144,29 @@ def delete_category(request, pk=None):
     category.delete()
     messages.success(request, 'Category deleted successfully')
     return redirect('menu_builder')
+
+
+############ Food - Add
+
+def add_food(request):
+
+    if request.method == 'POST':
+        form = FoodItemForm(request.POST, request.FILES) #request.FILES added beacuse we add food picture file
+        if form.is_valid():
+            foodtitle = form.cleaned_data['food_title']
+            food = form.save(commit=False)
+            food.vendor = get_vendor(request)
+            food.slug = slugify(foodtitle)
+            form.save()
+            messages.success(request, 'Food item added successfully')
+            return redirect('fooditems_by_category', food.category.id)
+    
+    else:
+
+        form = FoodItemForm()
+
+    context = {
+        'form' : form,
+    }
+
+    return render(request, 'add_food.html' ,context)
