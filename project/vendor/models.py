@@ -11,6 +11,7 @@ class Vendor(models.Model):
     is_approved = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+    vendor_slug = models.SlugField(max_length=100, unique=True) #to show vendor pages
 
     def __str__(self):
         return self.vendor_name
